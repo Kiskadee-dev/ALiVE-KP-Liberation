@@ -4,6 +4,10 @@ if (!(isNil "GRLIB_param_wipe_savegame_1") && !(isNil "GRLIB_param_wipe_savegame
 	if (GRLIB_param_wipe_savegame_1 == 1 && GRLIB_param_wipe_savegame_2 == 1) then {
 		profileNamespace setVariable [GRLIB_save_key,nil];
 		saveProfileNamespace;
+		waitUntil {!isNil "ALIVE_profileSystemInit"};
+		call ALiVE_fnc_ProfileNameSpaceWipe;
+		hint "Alive data deleted!";
+		systemChat "Alive data deleted! Starting from scratch!";
 		if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save wiped";};
 	} else {
 		if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] No save wipe";};

@@ -1,3 +1,5 @@
+_ST_disable_this = 1;
+if (_ST_disable_this == 1) exitWith {};
 if ( GRLIB_endgame == 1 ) exitWith {};
 
 private [ "_bg_groups", "_target_size", "_vehicle_pool" ];
@@ -66,5 +68,3 @@ if ( _spawn_marker != "" ) then {
 
 	} foreach _bg_groups;
 };
-
-

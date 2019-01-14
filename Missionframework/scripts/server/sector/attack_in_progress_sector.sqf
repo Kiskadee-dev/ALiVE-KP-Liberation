@@ -15,7 +15,11 @@ if ( GRLIB_blufor_defenders ) then {
 	_grp = creategroup [GRLIB_side_friendly, true];
 	{ _x createUnit [ markerpos _sector, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach _squad_type;
 	sleep 3;
-	_grp setBehaviour "COMBAT";
+
+	//_grp setBehaviour "COMBAT";
+	//make they actually assume defending positions instead of just die
+	_unit = (unit _grps) select 0;
+	[group _unit, getPos _unit] call BIS_fnc_taskdefend; //Make the group of defenders assume positions within 100m
 };
 
 sleep 60;
@@ -58,7 +62,7 @@ if ( GRLIB_endgame == 0 ) then {
 						detach _x;
 						deleteVehicle _x;
 					} forEach (attachedObjects ((nearestObjects [((_x select 3) select 0), [KP_liberation_small_storage_building], 10]) select 0));
-					
+
 					deleteVehicle ((nearestObjects [((_x select 3) select 0), [KP_liberation_small_storage_building], 10]) select 0);
 				};
 				KP_liberation_production = KP_liberation_production - [_x];

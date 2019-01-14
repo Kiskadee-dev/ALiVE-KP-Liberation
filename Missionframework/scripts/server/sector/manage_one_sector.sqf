@@ -1,5 +1,6 @@
 params ["_sector"];
-
+_ST_enable = true;
+if (_ST_enable) then {
 waitUntil {!isNil "combat_readiness"};
 
 if (KP_liberation_sectorspawn_debug > 0) then {private _text = format ["[KP LIBERATION] [SECTORSPAWN] Sector %1 (%2) - manage_one_sector spawned on: %3 - time: %4", (markerText _sector), _sector, debug_source, time];_text remoteExec ["diag_log",2];};
@@ -34,9 +35,10 @@ private _opforcount = [] call F_opforCap;
 
 if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] call F_getCorrectedSectorRange, GRLIB_side_friendly] call F_getUnitsCount) > 0)) then {
 
-	if (_sector in sectors_bigtown) then {	
+	if (_sector in sectors_bigtown) then {
+		/*
 		if (combat_readiness > 30) then {_infsquad = "army";};
-		
+
 		_squad1 = ([_infsquad] call F_getAdaptiveSquadComp);
 		_squad2 = ([_infsquad] call F_getAdaptiveSquadComp);
 		if (GRLIB_unitcap >= 1) then {_squad3 = ([_infsquad] call F_getAdaptiveSquadComp);};
@@ -50,7 +52,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 			_vehtospawn pushback ([] call F_getAdaptiveVehicle);
 			if ((random 100) > (33 / GRLIB_difficulty_modifier)) then {_vehtospawn pushback ([] call F_getAdaptiveVehicle);};
 		};
-		
+
 		_spawncivs = true;
 
 		if (((random 100) <= KP_liberation_resistance_sector_chance) && (([] call F_cr_getMulti) > 0)) then {
@@ -60,7 +62,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 		_building_ai_max = round (50 * _popfactor);
 		_building_range = 200;
 		_local_capture_size = _local_capture_size * 1.4;
-		
+		*/
 		if (KP_liberation_civ_rep < 0) then {
 			_iedcount = round (2 + (ceil (random 4)) * (round ((KP_liberation_civ_rep * -1) / 33)) * GRLIB_difficulty_modifier);
 		} else {
@@ -70,11 +72,12 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 	};
 
 	if (_sector in sectors_capture) then {
+		/*
 		if (combat_readiness > 50) then {_infsquad = "army";};
-		
+
 		_squad1 = ([_infsquad] call F_getAdaptiveSquadComp);
 		if (GRLIB_unitcap >= 1.25) then {_squad2 = ([_infsquad] call F_getAdaptiveSquadComp);};
-		
+
 		if ((random 100) > (66 / GRLIB_difficulty_modifier)) then {_vehtospawn pushback (selectRandom militia_vehicles);};
 		if ((random 100) > (33 / GRLIB_difficulty_modifier)) then {_vehtospawn pushback (selectRandom militia_vehicles);};
 		if (_infsquad == "army") then {
@@ -84,16 +87,16 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 				_squad3 = ([_infsquad] call F_getAdaptiveSquadComp);
 			};
 		};
-		
+
 		_spawncivs = true;
 
 		if (((random 100) <= KP_liberation_resistance_sector_chance) && (([] call F_cr_getMulti) > 0)) then {
 			_guerilla = true;
 		};
-		
+
 		_building_ai_max = round ((floor (18 + (round (combat_readiness / 10 )))) * _popfactor);
 		_building_range = 120;
-		
+		*/
 		if (KP_liberation_civ_rep < 0) then {
 			_iedcount = round ((ceil (random 4)) * (round ((KP_liberation_civ_rep * -1) / 33)) * GRLIB_difficulty_modifier);
 		} else {
@@ -103,43 +106,46 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 	};
 
 	if (_sector in sectors_military) then {
+		/*
 		_infsquad = "army";
-		
+
 		_squad1 = ([_infsquad] call F_getAdaptiveSquadComp);
 		_squad2 = ([_infsquad] call F_getAdaptiveSquadComp);
 		if (GRLIB_unitcap >= 1.5) then {_squad3 = ([_infsquad] call F_getAdaptiveSquadComp);};
-		
+
 		_vehtospawn = [([] call F_getAdaptiveVehicle),([] call F_getAdaptiveVehicle)];
 		if ((random 100) > (33 / GRLIB_difficulty_modifier)) then {
 			_vehtospawn pushback ([] call F_getAdaptiveVehicle);
 			_squad4 = ([_infsquad] call F_getAdaptiveSquadComp);
 		};
 		if ((random 100) > (66 / GRLIB_difficulty_modifier)) then {_vehtospawn pushback ([] call F_getAdaptiveVehicle);};
-		
+
 		_spawncivs = false;
-		
+
 		_building_ai_max = round ((floor (18 + (round (combat_readiness / 4 )))) * _popfactor);
 		_building_range = 120;
+		*/
 	};
 
 	if (_sector in sectors_factory) then {
+		/*
 		if (combat_readiness > 40) then {_infsquad = "army";};
-		
+
 		_squad1 = ([_infsquad] call F_getAdaptiveSquadComp);
 		if (GRLIB_unitcap >= 1.25) then {_squad2 = ([_infsquad] call F_getAdaptiveSquadComp);};
 
 		if ((random 100) > 66) then {_vehtospawn pushback ([] call F_getAdaptiveVehicle);};
 		if ((random 100) > 33) then {_vehtospawn pushback (selectRandom militia_vehicles);};
-		
+
 		_spawncivs = false;
 
 		if (((random 100) <= KP_liberation_resistance_sector_chance) && (([] call F_cr_getMulti) > 0)) then {
 			_guerilla = true;
 		};
-		
+
 		_building_ai_max = round ((floor (18 + (round (combat_readiness / 10 )))) * _popfactor);
 		_building_range = 120;
-		
+		*/
 		if (KP_liberation_civ_rep < 0) then {
 			_iedcount = round ((ceil (random 3)) * (round ((KP_liberation_civ_rep * -1) / 33)) * GRLIB_difficulty_modifier);
 		} else {
@@ -149,6 +155,8 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 	};
 
 	if (_sector in sectors_tower) then {
+		systemChat "Tower called to spawn sector";
+		/*
 		_infsquad = "army";
 
 		_squad1 = ([_infsquad] call F_getAdaptiveSquadComp);
@@ -160,8 +168,9 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 		_spawncivs = false;
 
 		_building_ai_max = 0;
+		*/
 	};
-
+/*
 	if (KP_liberation_sectorspawn_debug > 0) then {private _text = format ["[KP LIBERATION] [SECTORSPAWN] Sector %1 (%2) - manage_one_sector calculated -> _infsquad: %3 - _squad1: %4 - _squad2: %5 - _squad3: %6 - _squad4: %7 - _vehtospawn: %8 - _building_ai_max: %9", (markerText _sector), _sector, _infsquad, (count _squad1), (count _squad2), (count _squad3), (count _squad4), (count _vehtospawn), _building_ai_max];_text remoteExec ["diag_log",2];};
 
 	if (_building_ai_max > 0 && GRLIB_adaptive_opfor) then {
@@ -230,7 +239,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 	if ((_sector in sectors_factory) || (_sector in sectors_capture) || (_sector in sectors_bigtown) || (_sector in sectors_military)) then {
 		[_sector] remoteExec ["reinforcements_remote_call",2];
 	};
-
+*/
 	if (KP_liberation_sectorspawn_debug > 0) then {private _text = format ["[KP LIBERATION] [SECTORSPAWN] Sector %1 (%2) - populating done at %3", (markerText _sector), _sector, time];_text remoteExec ["diag_log",2];};
 
 	while {!_stopit} do {
@@ -288,3 +297,4 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 };
 
 if (KP_liberation_sectorspawn_debug > 0) then {private _text = format ["[KP LIBERATION] [SECTORSPAWN] Sector %1 (%2) - manage_one_sector dropped on: %3", (markerText _sector), _sector, debug_source];_text remoteExec ["diag_log",2];};
+};

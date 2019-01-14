@@ -32,3 +32,26 @@ if (!isDedicated && hasInterface) then {
 if ((isNil {player getVariable "bis_revive_ehHandleHeal"} || isDedicated) && !(bis_reviveParam_mode == 0)) then {
     [] call bis_fnc_reviveInit;
 };
+
+
+systemChat "Finished Init";
+systemChat "Welcome to Liberation Doggo v0.1";
+_doggo = false;
+if (_doggo) then {
+	sleep 20;
+	if (isServer) then {
+	    [] spawn {
+	        while {true} do {
+	            sleep 60;
+	            [] call ALiVE_fnc_createProfilesFromUnitsRuntime;
+							systemChat "Added units to Alive";
+	        };
+	    };
+	};
+
+	while {true} do {
+		sleep 10;
+		_UnitsIngame = allUnits;
+		hint("Units active: "+str(count(_UnitsIngame)));
+	};
+};
